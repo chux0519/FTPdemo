@@ -93,7 +93,7 @@ public class chuxFTPClient {
         return res_;
     }
 
-    public   void upLoad(String dis, String file) throws FileNotFoundException, IOException{
+    public   boolean upLoad(String dis, String file) throws FileNotFoundException, IOException{
         InputStream in = new FileInputStream(file);
         File tmpFile = new File(file);//获取文件名
 
@@ -102,11 +102,12 @@ public class chuxFTPClient {
             ftp.storeFile(tmpFile.getName(), in);
         } else {
             ftp.makeDirectory(dis);
-            if(!ftp.changeWorkingDirectory(dis)){System.out.println("Can't Create new Directory "+dis);}
+            if(!ftp.changeWorkingDirectory(dis)){System.out.println("Can't Create new Directory "+dis);return false;}
             else{System.out.println("Create new Directory "+dis);ftp.storeFile(tmpFile.getName(), in);}
         }
 
         in.close();
+        return true;
     }
 
     public    void downLoad(String remoteFile, String savePath) throws FileNotFoundException, IOException{
